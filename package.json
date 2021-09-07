@@ -1,0 +1,15 @@
+{
+  "name": "npb_result",
+  "version": "1.0.0",
+  "description": "npb web api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ant2357",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio-httpcli": "^0.8.2",
+    "express": "^4.17.1"
+  }
+}
