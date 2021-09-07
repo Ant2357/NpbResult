@@ -31,7 +31,7 @@ app.get('/cp', function(req, res) {
 });
 // オープン戦
 app.get('/op', function(req, res) {
-  res.json(cpJson);
+  res.json(opJson);
 });
 
 
