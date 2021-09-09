@@ -3,10 +3,10 @@ const npb = require("./web-scraping/npb");
 
 async function centralLeagueInsert(client, team) {
   await client.query(`INSERT INTO central_league (
-    rank, name, playGameCount, win, lose,
-    draw, pct, gameDiff, remainingMatch, run,
+    rank, name, play_game_count, win, lose,
+    draw, pct, game_diff, remaining_games, run,
     ra, hr, sb, avg, era,
-    pythagoreanExpectation
+    pythagorean_expectation
   ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 ,$9, $10, $11, $12, $13, $14, $15, $16)`, [
     team.rank,
     team.name,
@@ -16,7 +16,7 @@ async function centralLeagueInsert(client, team) {
     team.draw,
     team.pct,
     team.gameDiff,
-    team.remainingMatch,
+    team.remainingGames,
     team.run,
     team.ra,
     team.hr,
