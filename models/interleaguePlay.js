@@ -1,7 +1,7 @@
 module.exports = {
   async updateAll(client, teams) {
     await client.query("BEGIN");
-    await client.query("TRUNCATE TABLE central_league RESTART IDENTITY");
+    await client.query("TRUNCATE TABLE interleague_play RESTART IDENTITY");
     teams.forEach(team => {
       this.insert(client, team);
     });
@@ -9,7 +9,7 @@ module.exports = {
   },
 
   async insert(client, team) {
-    await client.query(`INSERT INTO central_league (
+    await client.query(`INSERT INTO interleague_play (
       rank, name, play_game_count, win, lose,
       draw, pct, game_diff, remaining_games, run,
       ra, hr, sb, avg, era,
@@ -32,6 +32,6 @@ module.exports = {
       team.era,
       team.pythagoreanExpectation,
     ]);
-    console.log("CL Success!");
+    console.log("CP Success!");
   }
 };
