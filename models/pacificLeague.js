@@ -1,6 +1,11 @@
 const tableName = "pacific_league";
 
 module.exports = {
+  async all(client) {
+    const results = await client.query(`SELECT * FROM ${tableName}`)
+    return results.rows;
+  },
+
   async updateAll(client, teams) {
     await client.query("BEGIN");
     await client.query(`TRUNCATE TABLE ${tableName} RESTART IDENTITY`);

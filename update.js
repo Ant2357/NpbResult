@@ -12,7 +12,7 @@ async function main() {
     plModel.updateAll(client, npb.standings("PL"));
     cpModel.updateAll(client, npb.standings("CP"));
     opModel.updateAll(client, npb.standings("OP"));
-    await client.release();
+    client.release();
   } catch (error) {
     console.error(error);
   }

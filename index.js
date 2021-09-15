@@ -1,10 +1,13 @@
-const clJson = require("./json/CL.json")
-const plJson = require("./json/PL.json")
-const cpJson = require("./json/CP.json")
-const opJson = require("./json/OP.json")
+const db = require("./db");
+const clModel = require("./models/centralLeague");
+const plModel = require("./models/pacificLeague");
+const cpModel = require("./models/interleaguePlay");
+const opModel = require("./models/exhibitionGame");
 
 const express = require('express');
 const app = express();
+
+app.use(express.json());
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -18,20 +21,31 @@ app.get('/', function(req, res) {
 });
 
 // セ・リーグ
-app.get('/cl', function(req, res) {
-  res.json(clJson);
+app.get('/cl', async (req, res) => {
+  const client = await db.pool.connect();
+  res.json(await clModel.all(client));
+  client.release();
 });
+
 // パ・リーグ
-app.get('/pl', function(req, res) {
-  res.json(plJson);
+app.get('/pl', async (req, res) => {
+  const client = await db.pool.connect();
+  res.json(await plModel.all(client));
+  client.release();
 });
+
 // セ・パ交流戦
-app.get('/cp', function(req, res) {
-  res.json(cpJson);
+app.get('/cp', async (req, res) => {
+  const client = await db.pool.connect();
+  res.json(await cpModel.all(client));
+  client.release();
 });
+
 // オープン戦
-app.get('/op', function(req, res) {
-  res.json(opJson);
+app.get('/op', async (req, res) => {
+  const client = await db.pool.connect();
+  res.json(await opModel.all(client));
+  client.release();
 });
 
 
