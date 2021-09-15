@@ -1,7 +1,9 @@
+const tableName = "exhibition_game";
+
 module.exports = {
   async updateAll(client, teams) {
     await client.query("BEGIN");
-    await client.query("TRUNCATE TABLE exhibition_game RESTART IDENTITY");
+    await client.query(`TRUNCATE TABLE ${tableName} RESTART IDENTITY`);
     teams.forEach(team => {
       this.insert(client, team);
     });
@@ -9,7 +11,7 @@ module.exports = {
   },
 
   async insert(client, team) {
-    await client.query(`INSERT INTO exhibition_game (
+    await client.query(`INSERT INTO ${tableName} (
       rank, name, play_game_count, win, lose,
       draw, pct, game_diff, remaining_games, run,
       ra, hr, sb, avg, era,
