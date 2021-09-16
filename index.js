@@ -17,35 +17,35 @@ app.get('/', function(req, res) {
     { title: 'Pacific League', url: "/pl" },
     { title: 'Interleague Play', url: "/cp" },
     { title: 'Exhibition game', url: "/op" }
-  ])
+  ]);
 });
+
+const resStandingsJson = async (res, model) => {
+  try {
+    const client = await db.pool.connect();
+    res.json(await model.all(client));
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.json(err);
+  }
+};
 
 // セ・リーグ
 app.get('/cl', async (req, res) => {
-  const client = await db.pool.connect();
-  res.json(await clModel.all(client));
-  client.release();
+  resStandingsJson(res, clModel);
 });
-
 // パ・リーグ
 app.get('/pl', async (req, res) => {
-  const client = await db.pool.connect();
-  res.json(await plModel.all(client));
-  client.release();
+  resStandingsJson(res, plModel);
 });
-
 // セ・パ交流戦
 app.get('/cp', async (req, res) => {
-  const client = await db.pool.connect();
-  res.json(await cpModel.all(client));
-  client.release();
+  resStandingsJson(res, cpModel);
 });
-
 // オープン戦
 app.get('/op', async (req, res) => {
-  const client = await db.pool.connect();
-  res.json(await opModel.all(client));
-  client.release();
+  resStandingsJson(res, opModel);
 });
 
 
