@@ -20,6 +20,7 @@ app.get('/', function(req, res) {
   ]);
 });
 
+// 順位表のJSONを投げる
 const resStandingsJson = async (res, model) => {
   try {
     const client = await db.pool.connect();
