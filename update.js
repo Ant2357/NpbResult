@@ -6,15 +6,16 @@ const opModel = require("./models/exhibitionGame");
 const npb = require("./web-scraping/npb");
 
 async function main() {
+  const client = await db.pool.connect();
   try {
-    const client = await db.pool.connect();
     clModel.updateAll(client, npb.standings("CL"));
     plModel.updateAll(client, npb.standings("PL"));
     cpModel.updateAll(client, npb.standings("CP"));
     opModel.updateAll(client, npb.standings("OP"));
+  } catch (err) {
+    console.error(err);
+  } finally {
     client.release();
-  } catch (error) {
-    console.error(error);
   }
 }
 main();

@@ -22,13 +22,14 @@ app.get('/', function(req, res) {
 
 // 順位表のJSONを投げる
 const resStandingsJson = async (res, model) => {
+  const client = await db.pool.connect();
   try {
-    const client = await db.pool.connect();
     res.json(await model.all(client));
-    client.release();
   } catch (err) {
     console.error(err);
     res.json(err);
+  } finally {
+    client.release();
   }
 };
 
