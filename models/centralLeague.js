@@ -7,12 +7,19 @@ module.exports = {
   },
 
   async updateAll(client, teams) {
-    await client.query("BEGIN");
-    await client.query(`TRUNCATE TABLE ${tableName} RESTART IDENTITY`);
-    teams.forEach(team => {
-      this.insert(client, team);
-    });
-    await client.query("COMMIT");
+    try {
+      await client.query("BEGIN");
+
+      await client.query(`TRUNCATE TABLE ${tableName} RESTART IDENTITY`);
+      teams.forEach(team => {
+        this.insert(client, team);
+      });
+
+      await client.query("COMMIT");
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    }
   },
 
   async insert(client, team) {
