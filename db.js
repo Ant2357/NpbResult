@@ -1,7 +1,6 @@
-const { Pool } = require('pg');
 require('dotenv').config();
 
-exports.pool = new Pool({
+exports.clientConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
-});
+};

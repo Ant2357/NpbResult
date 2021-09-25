@@ -1,8 +1,7 @@
-const db = require("./db");
-const clModel = require("./models/centralLeague");
-const plModel = require("./models/pacificLeague");
-const cpModel = require("./models/interleaguePlay");
-const opModel = require("./models/exhibitionGame");
+const ClModel = require("./models/centralLeague");
+const PlModel = require("./models/pacificLeague");
+const CpModel = require("./models/interleaguePlay");
+const OpModel = require("./models/exhibitionGame");
 
 const express = require('express');
 const app = express();
@@ -20,34 +19,44 @@ app.get('/', function(req, res) {
   ]);
 });
 
-// 順位表のJSONを投げる
-const resStandingsJson = async (res, model) => {
-  const client = await db.pool.connect();
-  try {
-    res.json(await model.all(client));
-  } catch (err) {
-    console.error(err);
-    res.json(err);
-  } finally {
-    client.release();
-  }
-};
-
 // セ・リーグ
 app.get('/cl', async (req, res) => {
-  resStandingsJson(res, clModel);
+  const clModel = new ClModel();
+  try {
+    res.json(await clModel.all());
+  } catch (err) {
+    res.json(err);
+  }
 });
+
 // パ・リーグ
 app.get('/pl', async (req, res) => {
-  resStandingsJson(res, plModel);
+  const plModel = new PlModel();
+  try {
+    res.json(await plModel.all());
+  } catch (err) {
+    res.json(err);
+  }
 });
+
 // セ・パ交流戦
 app.get('/cp', async (req, res) => {
-  resStandingsJson(res, cpModel);
+  const cpModel = new CpModel();
+  try {
+    res.json(await cpModel.all());
+  } catch (err) {
+    res.json(err);
+  }
 });
+
 // オープン戦
 app.get('/op', async (req, res) => {
-  resStandingsJson(res, opModel);
+  const opModel = new OpModel();
+  try {
+    res.json(await opModel.all());
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 

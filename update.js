@@ -1,21 +1,27 @@
-const db = require("./db");
-const clModel = require("./models/centralLeague");
-const plModel = require("./models/pacificLeague");
-const cpModel = require("./models/interleaguePlay");
-const opModel = require("./models/exhibitionGame");
+const ClModel = require("./models/centralLeague");
+const PlModel = require("./models/pacificLeague");
+const CpModel = require("./models/interleaguePlay");
+const OpModel = require("./models/exhibitionGame");
+
 const npb = require("./web-scraping/npb");
 
 async function main() {
-  const client = await db.pool.connect();
   try {
-    clModel.updateAll(client, npb.standings("CL"));
-    plModel.updateAll(client, npb.standings("PL"));
-    cpModel.updateAll(client, npb.standings("CP"));
-    opModel.updateAll(client, npb.standings("OP"));
+    // セ・リーグ
+    const clModel = new ClModel();
+    // パ・リーグ
+    const plModel = new PlModel();
+    // セ・パ交流戦
+    const cpModel = new CpModel();
+    // オープン戦
+    const opModel = new OpModel();
+
+    await clModel.updateAll(npb.standings("CL"));
+    await plModel.updateAll(npb.standings("PL"));
+    await cpModel.updateAll(npb.standings("CP"));
+    await opModel.updateAll(npb.standings("OP"));
   } catch (err) {
     console.error(err);
-  } finally {
-    client.release();
   }
 }
 main();
