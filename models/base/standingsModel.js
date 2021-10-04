@@ -35,6 +35,7 @@ module.exports = class StandingsModel {
 
       console.log("Successfully updated!")
     } catch (err) {
+      console.error(err);
       await client.query('ROLLBACK');
       throw err;
     } finally {
