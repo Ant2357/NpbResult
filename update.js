@@ -16,10 +16,10 @@ async function main() {
     // オープン戦
     const opModel = new OpModel();
 
-    await clModel.updateAll(npb.standings("CL"));
-    await plModel.updateAll(npb.standings("PL"));
-    await cpModel.updateAll(npb.standings("CP"));
-    await opModel.updateAll(npb.standings("OP"));
+    await clModel.updateAll(await npb.standings("CL"));
+    await plModel.updateAll(await npb.standings("PL"));
+    await cpModel.updateAll(await npb.standings("CP"));
+    await opModel.updateAll(await npb.standings("OP"));
   } catch (err) {
     console.error(err);
   }

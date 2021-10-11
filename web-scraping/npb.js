@@ -12,7 +12,7 @@ const BaseballTeam = require("./modules/baseballTeam");
  * @param {String} leagueName
  * @returns {Array}
  */
-exports.standings = (leagueName) => {
+exports.standings = async (leagueName) => {
   const leagueUrls = {
     "CL": "1",
     "PL": "2",
@@ -22,12 +22,12 @@ exports.standings = (leagueName) => {
   const url = "https://baseball.yahoo.co.jp/npb/standings/detail/"
     + leagueUrls[(typeof leagueUrls[leagueName] === "undefined" ? "CL" : leagueName)];
 
-  const web = client.fetchSync(url);
+  const web = await client.fetch(url);
   if (web.response.request.uri.href !== url) {
     return [];
   }
 
-  const searchNum = leagueName === "OP" || leagueName === "CP"  ? 12 : 6;
+  const searchNum = leagueName === "OP" || leagueName === "CP" ? 12 : 6;
   let teams = [];
   web.$('.bb-rankTable > tbody > tr').each(function (idx) {
     if (idx < searchNum) {
