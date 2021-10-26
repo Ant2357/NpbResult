@@ -60,7 +60,7 @@ module.exports = class StandingsModel {
   async executeInsertSql(client, team) {
     await client.query(`INSERT INTO ${this.tableName} (
       rank, name, play_game_count, win, lose,
-      draw, pct, game_diff, remaining_games, run,
+      draw, pct, games_behind, remaining_games, run,
       ra, hr, sb, avg, era,
       pythagorean_expectation
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 ,$9, $10, $11, $12, $13, $14, $15, $16)`, [
@@ -71,7 +71,7 @@ module.exports = class StandingsModel {
       team.lose,
       team.draw,
       team.pct,
-      team.gameDiff,
+      team.gamesBehind,
       team.remainingGames,
       team.run,
       team.ra,
