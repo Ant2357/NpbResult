@@ -12,7 +12,12 @@ module.exports = class StandingsModel {
     try {
       await client.connect();
 
-      const result = await client.query(`SELECT * FROM ${this.tableName}`);
+      const result = await client.query(`SELECT 
+        rank, name, play_game_count, win, lose,
+        draw, pct, games_behind, remaining_games, run,
+        ra, hr, sb, avg, era,
+        pythagorean_expectation
+      FROM ${this.tableName}`);
       return result.rows;
     } catch (err) {
       console.error(err);
