@@ -24,6 +24,8 @@ module.exports = class BaseballTeam {
     // Webスクレイピング先に無い独自値
     // ピタゴラス勝率
     this.pythagoreanExpectation = 0.0;
+    // Pythagenpat(ピタゴラス勝率の改良型)
+    this.pythagenPat = 0.0;
   }
 
   /**
@@ -39,11 +41,12 @@ module.exports = class BaseballTeam {
     // ※ is公式戦 ? index + 1 : index;
     const run = Number(tableDom.children().eq(8 + isRegularGame).text());
     const ra = Number(tableDom.children().eq(9 + isRegularGame).text());
+    const playGameCount = Number(tableDom.children().eq(2).text());
 
     const rank = tableDom.children().eq(0).text().replace(/[^0-9]/g, "");
     this.rank = Number(rank);
     this.name = tableDom.children().eq(1).text().trim();
-    this.playGameCount = Number(tableDom.children().eq(2).text());
+    this.playGameCount = playGameCount
     this.win = Number(tableDom.children().eq(3).text());
     this.lose = Number(tableDom.children().eq(4).text());
     this.draw = Number(tableDom.children().eq(5).text());
@@ -61,5 +64,11 @@ module.exports = class BaseballTeam {
     // ピタゴラス勝率
     const pythagoreanExpectation = (run * run) / ((run * run) + (ra * ra));
     this.pythagoreanExpectation = Math.round(pythagoreanExpectation * 1000) / 1000;
+
+
+    // Pythagenpat(ピタゴラス勝率の改良型)
+    const x = ((run + ra) / playGameCount) ** 0.287;
+    const pythagenPat = (run ** x) / (run ** x + ra ** x);
+    this.pythagenPat = Math.round(pythagenPat * 1000) / 1000;
   }
 }
