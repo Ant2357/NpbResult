@@ -22,8 +22,6 @@ module.exports = class BaseballTeam {
     this.era = 0.0;
 
     // Webスクレイピング先に無い独自値
-    // ピタゴラス勝率
-    this.pythagoreanExpectation = 0.0;
     // Pythagenpat(ピタゴラス勝率の改良型)
     this.pythagenPat = 0.0;
   }
@@ -61,11 +59,6 @@ module.exports = class BaseballTeam {
     this.era = Number(tableDom.children().eq(13 + isRegularGame).text());
 
     // Webスクレイピング先に無い独自値
-    // ピタゴラス勝率
-    const pythagoreanExpectation = (run * run) / ((run * run) + (ra * ra));
-    this.pythagoreanExpectation = Math.round(pythagoreanExpectation * 1000) / 1000;
-
-
     // Pythagenpat(ピタゴラス勝率の改良型)
     const x = ((run + ra) / playGameCount) ** 0.287;
     const pythagenPat = (run ** x) / (run ** x + ra ** x);

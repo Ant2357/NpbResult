@@ -16,7 +16,7 @@ module.exports = class StandingsModel {
         rank, name, play_game_count, win, lose,
         draw, pct, games_behind, remaining_games, run,
         ra, hr, sb, avg, era,
-        pythagorean_expectation, pythagen_pat
+        pythagen_pat
       FROM ${this.tableName}`);
       return result.rows;
     } catch (err) {
@@ -67,8 +67,8 @@ module.exports = class StandingsModel {
       rank, name, play_game_count, win, lose,
       draw, pct, games_behind, remaining_games, run,
       ra, hr, sb, avg, era,
-      pythagorean_expectation, pythagen_pat
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 ,$9, $10, $11, $12, $13, $14, $15, $16, $17)`, [
+      pythagen_pat
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 ,$9, $10, $11, $12, $13, $14, $15, $16)`, [
       team.rank,
       team.name,
       team.playGameCount,
@@ -84,7 +84,6 @@ module.exports = class StandingsModel {
       team.sb,
       team.avg,
       team.era,
-      team.pythagoreanExpectation,
       team.pythagenPat,
     ]);
   }
