@@ -3,6 +3,8 @@ const PlModel = require("./models/pacificLeague");
 const CpModel = require("./models/interleaguePlay");
 const OpModel = require("./models/exhibitionGame");
 
+const StarterModel = require("./models/starterModel");
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -17,7 +19,8 @@ app.get('/', function(req, res) {
     { title: 'Central League', url: "/cl" },
     { title: 'Pacific League', url: "/pl" },
     { title: 'Interleague Play', url: "/cp" },
-    { title: 'Exhibition game', url: "/op" }
+    { title: 'Exhibition game', url: "/op" },
+    { title: 'Starter', url: "/starter" }
   ]);
 });
 
@@ -61,6 +64,16 @@ app.get('/op', async (req, res) => {
   }
 });
 
+
+// 予告先発
+app.get('/starter', async (req, res) => {
+  const starterModel = new StarterModel();
+  try {
+    res.json(await starterModel.all());
+  } catch (err) {
+    res.json(err);
+  }
+});
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'));
