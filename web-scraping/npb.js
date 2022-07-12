@@ -47,51 +47,46 @@ exports.standings = async (leagueName) => {
  * @returns {Array}
  */
 exports.starter = async () => {
-  const url = "https://baseball.yahoo.co.jp/npb/schedule/";
+  const url = "https://npb.jp/announcement/starter/";
 
   const web = await client.fetch(url);
   if (web.response.request.uri.href !== url) {
     return [];
   }
 
-  let ballparks = [];
-  web.$(".bb-score__venue").each(function () {
-    ballparks.push(web.$(this).text());
-  });
-
-  let teamNames = [];
-  web.$(".bb-score__team").each(function () {
-    teamNames.push(web.$(this).children().eq(0).text());
-    teamNames.push(web.$(this).children().eq(1).text());
-  });
-
-  let starterNames = [];
-  web.$(".bb-score__player").each(function () {
-    starterNames.push(web.$(this).text());
-  });
-
-
   let res = [];
-  for (let i = 0; i < starterNames.length; i++) {
-    if (i % 2 != 0) {
-      continue;
+  web.$(".unit").each(function () {
+    const ballpark = web.$(this).children().eq(4).text()
+      .replace(/\r?\n/g, "")
+      .trim()
+      .replace(/((0?|1)[0-9]|2[0-3])[:][0-5][0-9]/g, "")
+      .replace(/（|）/g, "");
+
+    if (ballpark.length === 0) {
+      return;
     }
+
+    const homeTeamName = web.$(this).children().eq(1).children().eq(0).attr("title");
+    const awayTeamName = web.$(this).children().eq(3).children().eq(0).attr("title");
+
+    const homeStarterName = web.$(this).children().eq(1).text().trim();
+    const awayStarterName = web.$(this).children().eq(3).text().trim();
 
     let starter = new Starter(
       // 球場名
-      ballparks[i / 2],
+      ballpark,
       // ホームチーム
-      teamNames[i],
+      homeTeamName,
       // アウェーチーム
-      teamNames[i + 1],
+      awayTeamName,
       //ホーム側の先発
-      starterNames[i],
+      homeStarterName,
       //アウェー側の先発
-      starterNames[i + 1]
+      awayStarterName
     );
 
     res.push(starter);
-  }
+  });
 
   return res;
 }
