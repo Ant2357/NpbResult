@@ -13,7 +13,8 @@ module.exports = class StarterModel {
       await client.connect();
 
       const result = await client.query(`SELECT 
-        ballpark, home_team_name, away_team_name, home_starter_name, away_starter_name
+        ballpark, home_team_name, away_team_name, home_starter_name, away_starter_name,
+        game_day
       FROM ${this.tableName}`);
       return result.rows;
     } catch (err) {
@@ -61,13 +62,15 @@ module.exports = class StarterModel {
 
   async executeInsertSql(client, starter) {
     await client.query(`INSERT INTO ${this.tableName} (
-      ballpark, home_team_name, away_team_name, home_starter_name, away_starter_name
-    ) VALUES ($1, $2, $3, $4, $5)`, [
+      ballpark, home_team_name, away_team_name, home_starter_name, away_starter_name,
+      game_day
+    ) VALUES ($1, $2, $3, $4, $5, $6)`, [
       starter.ballpark,
       starter.homeTeamName,
       starter.awayTeamName,
       starter.homeStarterName,
       starter.awayStarterName,
+      starter.gameDay,
     ]);
   }
 }

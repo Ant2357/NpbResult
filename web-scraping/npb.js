@@ -66,6 +66,16 @@ exports.starter = async () => {
       return;
     }
 
+    let gameDay = "";
+    web.$(".contents").each(function () {
+      const day = `${new Date().getFullYear()}-${web.$(this).children().eq(0).children().eq(0).text()
+        .replace(/の予告先発投手/g, "")
+        .replace(/月/g, "-")
+        .replace(/日/g, "")}`;
+
+      gameDay = day;
+    });
+
     const homeTeamName = web.$(this).children().eq(1).children().eq(0).attr("title");
     const awayTeamName = web.$(this).children().eq(3).children().eq(0).attr("title");
 
@@ -73,6 +83,8 @@ exports.starter = async () => {
     const awayStarterName = web.$(this).children().eq(3).text().trim();
 
     let starter = new Starter(
+      // 試合日
+      gameDay,
       // 球場名
       ballpark,
       // ホームチーム
