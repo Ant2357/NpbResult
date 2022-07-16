@@ -1,7 +1,7 @@
-const ClModel = require("./models/centralLeague");
-const PlModel = require("./models/pacificLeague");
-const CpModel = require("./models/interleaguePlay");
-const OpModel = require("./models/exhibitionGame");
+const ClModel = require("./models/centralLeagueModel");
+const PlModel = require("./models/pacificLeagueModel");
+const CpModel = require("./models/interleaguePlayModel");
+const OpModel = require("./models/exhibitionGameModel");
 
 const StarterModel = require("./models/starterModel");
 
